@@ -19,7 +19,7 @@ public class SberbankTest extends BaseTests {
                 .selectBaseMenu(selectBaseMenu)
                 .selectSubMenu(selectSubMenu)
                 .checkOpenPage(title)
-                .fillField1(fieldNames,fieldValues)
+                .fillField(fieldNames,fieldValues)
                 .processTicks(checkBoxNames,checkBoxValues)
                 .checkFieldValues(resultNames,resultValues);
     }

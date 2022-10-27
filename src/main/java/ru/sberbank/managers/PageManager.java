@@ -3,7 +3,6 @@ package ru.sberbank.managers;
 
 import ru.sberbank.pages.BasePage;
 import ru.sberbank.pages.MortgagesSecondaryHousingPage;
-import ru.sberbank.pages.StartPage;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,25 +24,11 @@ public class PageManager {
     private Map<String, BasePage> mapPages = new HashMap<>();
 
     /**
-     * Стартовая страница
-     *
-     * @author Алехнович Александр
-     */
-    private StartPage startPage;
-
-    /**
      * Стартовая страничка
      *
      * @author Алехнович Александр
      */
     private MortgagesSecondaryHousingPage mortgagesSecondaryHousingPage;
-
-    /**
-     * Базовый класс всех страничек
-     *
-     * @author Алехнович Александр
-     */
-    private BasePage basePage;
 
     /**
      * Конструктор специально был объявлен как private (singleton паттерн)
@@ -68,19 +53,6 @@ public class PageManager {
     }
 
     /**
-     * Ленивая инициализация {@link StartPage}
-     *
-     * @return SearсhResultsPage
-     * @author Алехнович Александр
-     */
-    public StartPage getStartPage() {
-        if (startPage == null) {
-            startPage = new StartPage();
-        }
-        return startPage;
-    }
-
-    /**
      * Ленивая инициализация {@link MortgagesSecondaryHousingPage}
      *
      * @return StartSearchPage
@@ -93,6 +65,12 @@ public class PageManager {
         return mortgagesSecondaryHousingPage;
     }
 
+    /**
+     * Инициализация страниц
+     *
+     * @return страницу
+     * @author Алехнович Александр
+     */
     public <T extends BasePage> T getPage(Class<T> ex) {
         if (mapPages.isEmpty() || mapPages.get(ex.getName()) == null) {
             try {

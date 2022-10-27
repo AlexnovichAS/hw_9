@@ -155,6 +155,7 @@ public class BasePage {
             driverManager.getDriver().manage().timeouts().implicitlyWait(Integer.parseInt(props.getProperty(IMPLICITLY_WAIT)), TimeUnit.SECONDS);
         }
     }
+
     /**
      * Явное ожидание состояния clickable элемента
      *
@@ -175,6 +176,7 @@ public class BasePage {
      *
      * @param element - веб элемент который мы ожидаем что будет  виден на странице
      * @author Алехнович Александр
+     * @author Алехнович Александр
      */
     protected WebElement waitUtilElementToBeVisible(WebElement element) {
         return wait.until(ExpectedConditions.visibilityOf(element));
@@ -185,6 +187,7 @@ public class BasePage {
      *
      * @param element - веб элемент до которого нужно проскролить
      * @author Алехнович Александр
+     * @author Алехнович Александр
      */
     public WebElement scrollToElementActions(WebElement element) {
         actions.moveToElement(element).build().perform();
@@ -192,10 +195,22 @@ public class BasePage {
     }
 
     /**
+     * Функция позволяющая производить замену значения текста и убирать пробелы
+     *
+     * @param element - веб элемент у которого заменяется значение текста и убираются пробелы
+     * @author Алехнович Александр
+     * @author Алехнович Александр
+     */
+    protected String getResultReplaceAndTrim(WebElement element) {
+        return element.getText().replaceAll("₽", "").trim();
+    }
+
+    /**
      * Общий метод по заполнения полей ввода
      *
      * @param field - веб-элемент поле ввода
      * @param value - значение вводимое в поле
+     * @author Алехнович Александр
      */
     protected void fillInputField(WebElement field, String value) {
         scrollToElementActions(field);
@@ -213,15 +228,20 @@ public class BasePage {
                 "Поле: " + field + " было заполнено некорректно");
     }
 
+    /**
+     * Ожидание загрузки страницы
+     *
+     * @author Алехнович Александр
+     */
     public void checkPageIsReady() {
         String prevState = driverManager.getDriver().getPageSource();
-        for (int i=0; i<25; i++){
+        for (int i = 0; i < 25; i++) {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException ignore) {
 
             }
-            if (prevState.equals(driverManager.getDriver().getPageSource())){
+            if (prevState.equals(driverManager.getDriver().getPageSource())) {
                 break;
             }
         }

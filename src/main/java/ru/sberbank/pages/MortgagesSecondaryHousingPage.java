@@ -1,5 +1,6 @@
 package ru.sberbank.pages;
 
+import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -7,60 +8,114 @@ import org.openqa.selenium.support.FindBy;
 import ru.sberbank.managers.DriverManager;
 
 import java.util.List;
-import java.util.Map;
 
 public class MortgagesSecondaryHousingPage extends BasePage {
 
+    /**
+     * @author Алехнович Александр
+     * title страницы
+     */
     @FindBy(xpath = "//div[contains(@class,'kit-col_lg-bottom')]/h1")
     private WebElement title;
 
+    /**
+     * @author Алехнович Александр
+     * Переход в iframe
+     */
     @FindBy(xpath = "//iframe[contains(@sandbox,'allow-forms') and @title='Основной контент']")
     private WebElement iframeMainContent;
 
-    @FindBy(xpath = "//div[contains(@data-e2e-id,'realty-cost-input')]//label")
-    private List<WebElement> boxFill;
-
+    /**
+     * @author Алехнович Александр
+     * Поле "Стоимость недвижимости"
+     */
     @FindBy(xpath = "//div[contains(@data-e2e-id,'realty-cost-input')]")
     private WebElement realEstateValue;
 
+    /**
+     * @author Алехнович Александр
+     * Поле "Первоначальный взнос"
+     */
     @FindBy(xpath = "//div[contains(@data-e2e-id,'initial-fee-input')]")
     private WebElement initialInstallment;
 
+    /**
+     * @author Алехнович Александр
+     * Поле "Срок кредита"
+     */
     @FindBy(xpath = "//div[contains(@data-e2e-id,'credit-term-input')]")
     private WebElement loanTerm;
 
+    /**
+     * @author Алехнович Александр
+     * Чекбокс "Своя ставка"
+     */
     @FindBy(xpath = "//div[contains(@data-e2e-id,'discounts-block')]//span[text()='Своя ставка']")
     private WebElement ownRate;
 
+    /**
+     * @author Алехнович Александр
+     * Чекбокс "Скидка 0,3% при покупке недвижимости на Домклик"
+     */
     @FindBy(xpath = "//div[contains(@data-e2e-id,'discounts-block')]//span[contains(text(),'Скидка') and contains(text(),'при покупке недвижимости')]")
     private WebElement propertyPurchaseDiscount;
 
+    /**
+     * @author Алехнович Александр
+     * Чекбокс "Страхование жизни и здоровья"
+     */
     @FindBy(xpath = "//div[contains(@data-e2e-id,'discounts-block')]//span[text()='Страхование жизни и здоровья']")
     private WebElement lifeAndHealthInsurance;
 
+    /**
+     * @author Алехнович Александр
+     * Чекбокс "Электронная регистрация сделки"
+     */
     @FindBy(xpath = "//div[contains(@data-e2e-id,'discounts-block')]//span[text()='Электронная регистрация сделки']")
     private WebElement electronicTransactionRegistration;
 
+    /**
+     * @author Алехнович Александр
+     * Поле "Ежемесячный платеж"
+     */
     @FindBy(xpath = "//div[contains(@data-test-id,'main-results-block')]//li[contains(@data-e2e-id,'result-monthly-payment')]//span[contains(text(),'₽')]")
     private WebElement monthlyPayment;
 
+    /**
+     * @author Алехнович Александр
+     * Поле "Процентная ставка"
+     */
     @FindBy(xpath = "//div[@data-test-id='main-results-block']//div[contains(@class,'ppr-container')]//span[text()='Процентная ставка']/following-sibling::span/span")
     private WebElement interestRate;
 
+    /**
+     * @author Алехнович Александр
+     * Поле "Сумма кредита"
+     */
     @FindBy(xpath = "//div[contains(@data-test-id,'main-results-block')]//li[contains(@data-e2e-id,'result-credit-sum')]//span[contains(text(),'₽')]")
     private WebElement creditAmount;
 
+    /**
+     * @author Алехнович Александр
+     * Поле "Налоговый вычет"
+     */
     @FindBy(xpath = "//div[contains(@data-test-id,'main-results-block')]//span[text()='Налоговый вычет']/following-sibling::span/span")
     private WebElement taxDeduction;
 
+    /**
+     * @author Алехнович Александр
+     * Поле "Необходимый доход"
+     */
     @FindBy(xpath = "//div[contains(@class,'ppr-container--inline')]//span[text()='Необходимый доход']/following-sibling::span/span")
     private WebElement necessaryIncome;
 
     /**
-     * Проверка открытия страницы, путём проверки title страницы
+     * Проверка открытия страницы
      *
-     * @return InsurancePage - т.е. остаемся на этой странице
+     * @param namePage - title страницы
+     * @return MortgagesSecondaryHousingPage - т.е. остаемся на этой странице
      */
+    @Step("Проверяем что открылась страница: '{namePage}'")
     public MortgagesSecondaryHousingPage checkOpenPage(String namePage) {
         waitUtilElementToBeVisible(title);
         Assertions.assertEquals(namePage, title.getText(), "Заголовок: " + namePage + " отсутствует/не соответствует требуемому");
@@ -68,34 +123,16 @@ public class MortgagesSecondaryHousingPage extends BasePage {
         return this;
     }
 
-    /**
-     * Метод заполнения полей
-     *
-     * @param values - значение вводимое в поле
-     * @return MortgagesSecondaryHousingPage - т.е. остаемся на этой странице
-     */
-   /* public MortgagesSecondaryHousingPage fillField(Map<String, String> values) {
-        String nameField = null;
-        for (WebElement webElement : boxFill) {
-            nameField = webElement.getText().trim();
-            if (values.keySet().stream().anyMatch(x -> x.equalsIgnoreCase(webElement.getText().trim()))) {
-                WebElement element = webElement.findElement(By.xpath("./../input"));
-                String value = values.entrySet().stream().filter(x -> x.getKey().equalsIgnoreCase(webElement.getText().trim())).findFirst().get().getValue();
-                fillInputField(element, value);
-                return this;
-            }
-        }
-        Assertions.fail("Поле с наименованием '" + nameField + "' отсутствует на странице" + "'Ипотека на вторичное жильё от'");
-        return this;
-    }*/
 
     /**
      * Метод заполнения полей
      *
-     * @param fieldNames - значение вводимое в поле
+     * @param fieldNames  - название поля для ввода значения
+     * @param fieldValues - значение вводимое в поле
      * @return MortgagesSecondaryHousingPage - т.е. остаемся на этой странице
      */
-    public MortgagesSecondaryHousingPage fillField1(List<String> fieldNames, List<String> fieldValues) {
+    @Step("Заполняем поля: '{fieldNames}', значениями: {fieldValues}")
+    public MortgagesSecondaryHousingPage fillField(List<String> fieldNames, List<String> fieldValues) {
         checkPageIsReady();
         WebElement element;
         for (int i = 0; i < fieldNames.size(); i++) {
@@ -128,9 +165,11 @@ public class MortgagesSecondaryHousingPage extends BasePage {
     /**
      * Управление чекбоксами при расчете ипотеки
      *
-     * @param checkBoxNames - значение проверяемое в поле
+     * @param checkBoxNames  - название чекбокса
+     * @param checkBoxValues - значение проверяемое у чекбокс
      * @return MortgagesSecondaryHousingPage - т.е. остаемся на этой странице
      */
+    @Step("Проставляем чекбокс: '{checkBoxNames}' значения: '{checkBoxValues}'")
     public MortgagesSecondaryHousingPage processTicks(List<String> checkBoxNames, List<String> checkBoxValues) {
         WebElement element = null;
         String nameCheckbox;
@@ -178,9 +217,11 @@ public class MortgagesSecondaryHousingPage extends BasePage {
     /**
      * Проверка ошибки относящаяся к конкретному полю на форме
      *
-     * @param resultNames - значение проверяемое в поле
-     * @return RegistrationFormPage - т.е. остаемся на этой странице
+     * @param resultNames  - имя веб элемента (поля)
+     * @param resultValues - значение проверяемое в поле
+     * @return MortgagesSecondaryHousingPage - т.е. остаемся на этой странице
      */
+    @Step("Проверяем значение полей: '{resultNames}' отображаются значения: '{resultValues}'")
     public MortgagesSecondaryHousingPage checkFieldValues(List<String> resultNames, List<String> resultValues) {
         checkPageIsReady();
         WebElement element = null;
@@ -225,7 +266,7 @@ public class MortgagesSecondaryHousingPage extends BasePage {
                             "'Ипотека на вторичное жильё от'");
 
             }
-            Assertions.assertEquals(value, element.getText().replaceAll("₽", "").trim(),
+            Assertions.assertEquals(value, getResultReplaceAndTrim(element),
                     "Проверка значения поля: '" + nameField + "' не пройдена");
         }
         return this;

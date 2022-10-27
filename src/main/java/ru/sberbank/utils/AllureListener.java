@@ -9,6 +9,11 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import ru.sberbank.managers.DriverManager;
 
+/**
+ * Класс следит за тестом (при падении теста делается скриншот)
+ *
+ * @author Алехнович Александр
+ */
 
 public class AllureListener extends AllureJunit5 implements AfterTestExecutionCallback {
 
